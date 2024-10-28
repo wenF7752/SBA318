@@ -11,7 +11,7 @@ const errorHandler = require('./middleware/errorHandler');
 
 //routers
 const roomsRouter = require('./routes/rooms');
-
+const favoritesRouter = require('./routes/favorites');
 
 // Create an Express application
 const app = express();
@@ -34,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Mount routers before index
 app.use('/rooms', roomsRouter);
-
+app.use('/favorites', favoritesRouter);
 
 app.use('/', (req, res) => {
     res.render('index');

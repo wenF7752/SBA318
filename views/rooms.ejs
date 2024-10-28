@@ -7,13 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Rooms</title>
     <link rel="stylesheet" href="/css/style.css">
-
+    <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
 </head>
 <body class="bg-gray-950">
     <div class="rooms-page-container container mx-auto px-4 py-8">
+        
+        <!-- Navigation Bar with "View Favorites" Button -->
+        <button
+            onclick="window.location.href='/favorites'"
+            class="btn btn-primary"
+          >
+            View Favorites
+          </button>
+
         <h1 class="text-4xl font-bold text-center mb-8 text-white">Available Hotel Rooms</h1>
+
+        <!-- Display Success or Error Messages -->
+        <% if (typeof message !== 'undefined') { %>
+            <div class="mb-6 text-center">
+                <p class="text-green-500"><%= message %></p>
+            </div>
+        <% } %>
 
         <!-- Filter Form -->
         <form method="GET" action="/rooms" class="mb-6 flex justify-center">
@@ -58,11 +73,15 @@
                                     class="bg-purple-200 text-purple-800 text-xs px-2 py-1 rounded"
                                 >Room Type: <%= room.room_type %></span>
                             </div>
-                            <a
-                                href="<%= room.listing_url %>"
-                                target="_blank"
-                                class="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
-                            >View Listing</a>
+                            <div class="flex space-x-2">
+                                <a
+                                    href="/rooms/<%= room._id %>"
+                                    class="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 text-center"
+                                >View Listing</a>
+                                <form action="/rooms/<%= room._id %>/favorite" method="POST" class="flex-1">
+                                    <button type="submit" class="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition duration-200">Add to Favorite</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 <% }); %>
