@@ -28,10 +28,21 @@ Rooms Page
 View a list of hotel rooms fetched from the MongoDB database.
 Each room entry displays relevant details such as room type, price, and amenities.
 
-API Endpoints
-GET /
-Description: Renders the landing page.
-Response: HTML page with a welcome message and a button to navigate to /rooms.
-GET /rooms
-Description: Fetches and displays a list of hotel rooms.
-Response: JSON data of room listings and renders the rooms view with the data.
+## API Endpoints
+
+### Rooms Endpoints
+
+| HTTP Method | Endpoint              | Description                                            |
+| ----------- | --------------------- | ------------------------------------------------------ |
+| **GET**     | `/rooms`              | Retrieve a paginated and filtered list of hotel rooms. |
+| **POST**    | `/rooms/:id/favorite` | Add a specific room to the favorites list.             |
+
+### Favorites Endpoints
+
+| HTTP Method | Endpoint                | Description                                     |
+| ----------- | ----------------------- | ----------------------------------------------- |
+| **GET**     | `/favorites`            | Retrieve all favorited rooms.                   |
+| **POST**    | `/favorites/:id/remove` | Remove a specific room from the favorites list. |
+| **POST**    | `/favorites/:id/update` | Update notes for a specific favorite room.      |
+
+-

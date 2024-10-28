@@ -5,10 +5,6 @@ const router = express.Router();
 const { connectDB } = require('../db/db');
 const error = require('../utilities/error');
 
-// Utility function to generate unique IDs (simple example)
-function generateUniqueId() {
-    return Date.now().toString(); // For simplicity; consider using more robust methods like UUIDs
-}
 
 // GET /favorites - Render the favorites page with favorite rooms
 router.get('/', async (req, res) => {
