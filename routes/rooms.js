@@ -12,7 +12,7 @@ router.route('/').get(async (req, res) => {
 
 
     const rooms = await db.collection('listingsAndReviews').find({}).limit(10).toArray();
-    res.json(rooms);
+    res.render('rooms');
 
 
 

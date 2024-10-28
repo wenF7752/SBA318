@@ -16,11 +16,12 @@ const roomsRouter = require('./routes/rooms');
 // Create an Express application
 const app = express();
 const PORT = 3000;
-const API_KEY = process.env.API_KEY;
+
 
 // Parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
 // Logging middleware
 app.use(logger);
@@ -31,23 +32,15 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
-// Define the root route before everything else
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// Mount routers before index
+app.use('/rooms', roomsRouter);
+
+
+app.use('/', (req, res) => {
+    res.render('index');
 });
 
-app.use("/api", function (req, res, next) {
-    var key = req.query["api-key"];
 
-    if (!key) next(error(400, "API Key Required"));
-    if (API_KEY !== key) {
-        return next(error(401, "Invalid API Key"));
-    }
-    req.key = key;
-    next();
-});
-
-app.use('/api/rooms', roomsRouter);
 
 
 connectDB()
