@@ -14,7 +14,8 @@ body {
   align-items: center;
 }
 
-.rooms-page-container {
+.rooms-page-container,
+.favorites-page-container {
   display: flex;
   flex-direction: column;
   justify-content: center;

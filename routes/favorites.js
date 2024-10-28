@@ -1,4 +1,4 @@
-// routes/rooms.js
+// routes/favorites.js
 
 const express = require('express');
 const router = express.Router();
@@ -10,20 +10,22 @@ function generateUniqueId() {
     return Date.now().toString(); // For simplicity; consider using more robust methods like UUIDs
 }
 
-// GET /rooms/favorites - Render the favorites page with favorite rooms
+// GET /favorites - Render the favorites page with favorite rooms
 router.get('/', async (req, res) => {
     try {
         const db = await connectDB();
 
+        // Extract message and messageType from query parameters
+        const message = req.query.message;
+        const messageType = req.query.messageType;
+
         // Fetch all favorite rooms
         const favoriteRooms = await db.collection('favoriteRooms').find({}).toArray();
 
-        // Extract message from query parameters
-        const message = req.query.message;
-
         res.render('favorites', {
             favoriteRooms,
-            message
+            message,
+            messageType
         });
     } catch (err) {
         console.error(err);
@@ -31,6 +33,26 @@ router.get('/', async (req, res) => {
     }
 });
 
+// POST /favorites/:id/remove - Remove a room from favorites
+router.post('/:id/remove', async (req, res) => {
+    try {
+        const db = await connectDB();
+        const favoriteId = req.params.id;
 
+        // Remove the favorite room by its unique _id
+        const result = await db.collection('favoriteRooms').deleteOne({ _id: favoriteId });
+
+        if (result.deletedCount === 0) {
+            // Redirect back with an error message if no document was deleted
+            return res.redirect('/favorites?message=Room not found in favorites&messageType=error');
+        }
+
+        // Redirect back with a success message
+        res.redirect('/favorites?message=Removed from favorites&messageType=success');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
+});
 
 module.exports = router;
