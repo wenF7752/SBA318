@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Error</h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+    <main>
+        <div class="error">
+            <h2><%= message %></h2>
+            <% if (error.stack) { %>
+                <pre><%= error.stack %></pre>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>
