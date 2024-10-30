@@ -10,7 +10,6 @@ function generateUniqueId() {
     return Date.now().toString(); // For simplicity; consider using more robust methods like UUIDs
 }
 
-// GET /rooms - Render the rooms page with paginated and filtered data
 router.get('/', async (req, res) => {
     try {
         const db = await connectDB();
@@ -25,9 +24,9 @@ router.get('/', async (req, res) => {
             page = 1;
         }
 
-        // Validate limit
-        if (isNaN(limit) || limit < 1 || limit > 100) { // Assuming a max limit
-            limit = 10;
+        // Validate limit - changed default to 12 and adjusted comment
+        if (isNaN(limit) || limit < 1 || limit > 100) { // Allowing up to 100 for flexibility
+            limit = 12; // Changed from 10 to 12
         }
 
         // Validate beds
@@ -68,7 +67,6 @@ router.get('/', async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
 // POST /rooms/:id/favorite - Add a room to favorites
 router.post('/:id/favorite', async (req, res) => {
     try {
@@ -91,7 +89,7 @@ router.post('/:id/favorite', async (req, res) => {
 
         // Add to favoriteRooms collection
         const favoriteRoom = {
-            _id: generateUniqueId(), // Implement a function to generate unique IDs if necessary
+            _id: generateUniqueId(),
             room_id: room._id,
             name: room.name,
             picture_url: room.images.picture_url || '/images/default-room.jpg',
